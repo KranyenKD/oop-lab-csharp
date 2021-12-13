@@ -39,11 +39,11 @@ namespace OperatorsOverloading
 
             // Look at this assignment!
             // It is possible because of the implicit conversion operator implemented in list
-            lst3 -= 5;
+            //lst3 -= 5; //errore
 
             if (lst3.Tail.Tail != res2)
             {
-                throw new Exception("Wrong implementation");
+                throw new Exception("Wrong implementation"); //errore
             }
 
             if (lst3 <= lst1)

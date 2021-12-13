@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace OperatorsOverloading
 {
@@ -38,7 +40,14 @@ namespace OperatorsOverloading
         /// <returns>a new list with the given elements.</returns>
         public static implicit operator List<TValue>(TValue[] enumerable)
         {
-            throw new NotImplementedException();
+            List<TValue> lst = List.Of(enumerable[0]);
+
+            for (int i = 1; i < enumerable.Length; i++)
+            {
+                lst= List.Append<TValue>(lst,List.Of(enumerable[i]));
+            }
+
+            return lst;
         }
 
         /// <summary>
@@ -48,7 +57,7 @@ namespace OperatorsOverloading
         /// <returns>a new list with only the given element.</returns>
         public static implicit operator List<TValue>(TValue element)
         {
-            throw new NotImplementedException();
+            return List.Of(element);
         }
 
         /// <summary>
@@ -58,7 +67,8 @@ namespace OperatorsOverloading
         /// <returns>an array containing the elements of the list.</returns>
         public static explicit operator TValue[](List<TValue> list)
         {
-            throw new NotImplementedException();
+            return list.ToFlat().ToArray();
+
         }
 
         /// <summary>
@@ -72,7 +82,11 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator ==(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            if(list1 is null || list2 is null)return false;
+
+
+            return Enumerable.SequenceEqual(list1.ToFlat(),list2.ToFlat());
+
         }
 
         /// <summary>
@@ -85,7 +99,7 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator !=(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            return !(list1 == list2);
         }
 
         /// <summary>
@@ -100,7 +114,13 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator >=(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            int count = list1.Length - list2.Length;
+            if (count >= 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -115,7 +135,13 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator <=(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            int count = list1.Length - list2.Length;
+            if (count <= 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -128,7 +154,13 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator <(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            int count = list1.Length - list2.Length;
+            if (count < 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -141,7 +173,7 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator >(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            return !(list1 < list2);
         }
 
         /// <summary>
@@ -152,7 +184,7 @@ namespace OperatorsOverloading
         /// <returns>the result list.</returns>
         public static List<TValue> operator +(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            return List.Append(list1, list2);
         }
 
         /// <summary>
@@ -164,7 +196,18 @@ namespace OperatorsOverloading
         /// <returns>the result list.</returns>
         public static List<TValue> operator -(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            TValue[] array1 = list1.ToFlat().ToArray();
+            TValue[] array2 = list2.ToFlat().ToArray();
+            List<TValue> lst = List.Nil<TValue>();
+            foreach (var e in array1)
+            {
+                if (!array2.Contains(e))
+                {
+                    List.Append(lst, List.Of(e));
+                }
+            }
+
+            return lst;
         }
 
         /// <summary>
