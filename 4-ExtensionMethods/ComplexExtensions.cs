@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace ExtensionMethods
 {
@@ -15,7 +16,7 @@ namespace ExtensionMethods
         /// <returns>the sum.</returns>
         public static IComplex Add(this IComplex c1, IComplex c2)
         {
-            throw new NotImplementedException();
+            return new Complex(c1.Real + c2.Real, c1.Imaginary + c2.Imaginary);
         }
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace ExtensionMethods
         /// <returns>the difference.</returns>
         public static IComplex Subtract(this IComplex c1, IComplex c2)
         {
-            throw new NotImplementedException();
+            return new Complex(c1.Real - c2.Real, c1.Imaginary - c2.Imaginary);
         }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace ExtensionMethods
         /// <returns>the product.</returns>
         public static IComplex Multiply(this IComplex c1, IComplex c2)
         {
-            throw new NotImplementedException();
+           return new Complex((c1.Real * c2.Real)-(c1.Imaginary * c2.Imaginary),(c1.Real * c2.Imaginary)+(c1.Imaginary * c2.Real)) ;
         }
 
         /// <summary>
@@ -48,7 +49,10 @@ namespace ExtensionMethods
         /// <returns>the quotient.</returns>
         public static IComplex Divide(this IComplex c1, IComplex c2)
         {
-            throw new NotImplementedException();
+            return new Complex(
+                ((c1.Real * c2.Real) + (c1.Imaginary * c2.Imaginary)) /
+                (c2.Real * c2.Real + c2.Imaginary * c2.Imaginary),((c1.Imaginary * c2.Real)-(c1.Real * c2.Imaginary))/(c2.Real * c2.Real + c2.Imaginary * c2.Imaginary));
+
         }
 
         /// <summary>
@@ -64,7 +68,7 @@ namespace ExtensionMethods
         /// <returns>the complex conjugate.</returns>
         public static IComplex Conjugate(this IComplex c1)
         {
-            throw new NotImplementedException();
+            return new Complex(c1.Real, -c1.Imaginary);
         }
 
         /// <summary>
@@ -80,7 +84,9 @@ namespace ExtensionMethods
         /// <returns>the complex reciprocal.</returns>
         public static IComplex Reciprocal(this IComplex c1)
         {
-            throw new NotImplementedException();
+            Complex uno = new Complex(1, 0);
+
+            return uno.Divide(c1);
         }
     }
 }
